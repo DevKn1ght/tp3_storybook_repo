@@ -1,0 +1,19 @@
+name: 'Upload storybook to chromatic'
+on: push
+jobs:
+  chromatic-storybook-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get latest code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Install dependencies
+        run: npm
+        
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
