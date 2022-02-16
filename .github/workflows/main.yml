@@ -1,19 +1,20 @@
 on: push
-name: Deploy the static Storybook
+name: Deploy website on push
 jobs:
-  storybook-deploy:
-    name: Build Storybook
+  web-deploy:
+    name:  Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: build docs
-      run: npm run build:docs
-      
-    - name: Sync Files
+    - name: Get latest codes
+      uses: actions/checkout@v2
+
+    - name: Sync file
       uses: SamKirkland/FTP-Deploy-Action@4.2.0
       with:
         server: ftp.alacerte.devwebgarneau.com
         username: alacerte
-        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftp
+        password: ${{ secrets.ftp_password }}
         
-        local_path: ./storybook-static
-        remote_path: ./public_html/tp1-storybook
+        local-dir: ./storybook-static/
+        server-dir: public_html/storybook/
